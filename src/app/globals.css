@@ -54,4 +54,16 @@ body {
   .flex-between {
     @apply flex justify-between items-center;
   }
+
+  .border-b-white {
+    @apply border-b-[1px] border-white;
+  }
+
+  .none-seleceted-btn {
+    @apply px-4 py-2 border-[1px] border-white rounded-full mr-2;
+  }
+
+  .selected-btn {
+    @apply px-4 py-2 border-[1px] border-white rounded-full mr-2 bg-white text-black;
+  }
 }

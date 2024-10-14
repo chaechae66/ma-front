@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import searchIcon from "@/assets/images/search.svg";
+import MainRank from "./_components/MainRank";
 
 export default function Home() {
   return (
@@ -31,6 +32,7 @@ export default function Home() {
           <div className="from-zinc-900 bg-gradient-to-t w-full h-96 absolute -z-10"></div>
         </div>
       </div>
+      <MainRank />
     </>
   );
 }
