@@ -14,7 +14,7 @@ interface Props {
 export default function Title({ title, isShow, setIsShow, type }: Props) {
   return (
     <nav className="mt-20 pb-6 flex-between border-b-[1px] border-white">
-      <h4 className="text-2xl">{title}</h4>
+      <h4 className="text-2xl font-bold">{title}</h4>
       {isShow[type] ? (
         <img
           onClick={() => {

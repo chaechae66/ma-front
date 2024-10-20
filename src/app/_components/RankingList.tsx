@@ -1,13 +1,9 @@
-import { TOverAll } from "../_types/data"
-
-type keys = keyof TOverAll;
-
-interface Props {
-  tableTitles : {title: string, key:keys}[]
-  data : TOverAll[] 
+interface Props<T> {
+  tableTitles : {title: string, key: keyof T}[]
+  data : T[]
 }
 
-export default function RankingList({tableTitles, data} :Props) {
+export default function RankingList<T extends { ranking: number }>({tableTitles, data} :Props<T>) {
   return <>
   
     <table className="w-full text-center">
@@ -20,8 +16,11 @@ export default function RankingList({tableTitles, data} :Props) {
               </thead>
               <tbody>
                 {data.map((elem)=>(
-                  <tr className="h-12 border-b-[1px] border-zinc-500" key={elem.character_name}>{
-                    tableTitles.map((value)=>(<td key={value.key}>{elem[value.key] || "-"}</td>))
+                  <tr className="h-12 border-b-[1px] border-zinc-500" key={elem.ranking}>{
+                    tableTitles.map((value)=>(
+                    <td key={value.title}>
+                      {(elem[value.key]  as React.ReactNode) || "-"}
+                      </td>))
                   }</tr>
                 ))}
               </tbody>
