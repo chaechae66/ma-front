@@ -22,3 +22,10 @@ export interface TOverAll {
     sub_class_name:string,
     character_level: number
   }
+
+  export interface TNotice {
+    title : string,
+    url : string,
+    notice_id: number,
+    date: string
+  }

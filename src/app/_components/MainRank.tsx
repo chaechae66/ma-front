@@ -1,16 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 import { TisShow, Tselected } from "../_types/props";
+import { TDojang, TNotice, TOverAll } from "../_types/data";
+
+interface TNoticeRanking extends TNotice {
+  ranking : number;
+}
 
 import RankTabs from "./RankTabs";
 import RankingList from "./RankingList";
 import Title from "./Title";
-import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosError, AxiosResponse } from "axios";
 import { calToday } from "../_utils/calculateDay";
-import { TDojang, TOverAll } from "../_types/data";
+import Link from "next/link";
 
 export default function MainRank() {
   const [isShow, setIsShow] = useState<TisShow>({
@@ -43,10 +48,19 @@ export default function MainRank() {
           world_name: selected.dojangRank,
           difficulty:0,
         },
-      }).then((res)=> {return res.data.ranking.slice(0,10).map((elem : TDojang)=>({...elem, dojang_time_record : `${Math.floor(elem.dojang_time_record / 60)}:${elem.dojang_time_record % 60}`}))} ),
+      }).then((res)=> {
+        return res.data.ranking.slice(0,10).map((elem : TDojang)=>{ 
+          const minutes = elem.dojang_time_record / 60;
+          const seconds = elem.dojang_time_record % 60
+          return {...elem, dojang_time_record : `${Math.floor(minutes)}:${seconds < 10 ? `0${seconds}` : seconds}`}})} ),
   });
 
-  console.log(111,dojangRankData)
+  const { data : noticeData,  isLoading : noticeIsLoading, error: noticeError } = useQuery({
+    queryKey: ["notice"],
+    queryFn: () : Promise<TOverAll[]>=> 
+      axios.get("/notice/list", {
+      }).then((res)=> res.data.notice.slice(0,10).map((elem : TNotice, index : number )=>({...elem,date:elem.date.slice(0,10), ranking : index + 1})) ),
+  });
 
   return (
     <div className="wrap">
@@ -82,7 +96,7 @@ allRankIsLoading ? <>로딩 중입니다...</> :
           setIsShow={setIsShow}
           type={"dojangRank"}
         />
-        {isShow.allRank ? (
+        {isShow.dojangRank ? (
           <>
             <RankTabs
               selected={selected}
@@ -96,6 +110,28 @@ allRankIsLoading ? <>로딩 중입니다...</> :
                   ,{title : "레벨", key : "character_level"}
                   ,{title: "층수", key: "dojang_floor"}
                   ,{title:"기록", key :"dojang_time_record"}]} data={dojangRankData! as unknown as TDojang[]} />
+            }
+          </>
+        ) : (
+          <></>
+        )}
+        <Title
+          title="공지"
+          isShow={isShow}
+          setIsShow={setIsShow}
+          type={"notice"}
+        />
+         {isShow.notice ? (
+          <>
+          <div className="w-full flex justify-end">
+          <button className="none-seleceted-btn mr-0 mt-8 mb-4">
+            <Link href={"/"}>더보기</Link>
+          </button>
+          </div>
+            {
+            noticeIsLoading ? <>로딩 중입니다...</> :
+            <RankingList<TNoticeRanking> tableTitles={[{title :"#", key :"ranking"},{title :"제목", key :"title"}
+                 ,{title :"날짜", key : "date"}]} data={noticeData! as unknown as TNoticeRanking[]} />
             }
           </>
         ) : (
