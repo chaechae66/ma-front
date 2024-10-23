@@ -29,3 +29,24 @@ export interface TOverAll {
     notice_id: number,
     date: string
   }
+
+  export interface TStat {
+    stat_name: string;
+    stat_value: string;
+}
+
+interface THyperItem{
+  "stat_type": string,
+          "stat_point": number | null,
+          "stat_level": number | null,
+          "stat_increase": number| null
+}
+
+export interface THyperData {
+  "date": null,
+  "character_class": string,
+  "use_preset_no": string,
+  "use_available_hyper_stat": number,
+  [key: `hyper_stat_preset_${number}_remain_point`]: number;
+  [key: `hyper_stat_preset_${number}`]: THyperItem[];
+}
