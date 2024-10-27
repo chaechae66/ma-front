@@ -6,9 +6,9 @@ interface TStatData {
 }
 
 type DataTypeMap = {
-  stat: TStatData;
-  hyper: THyperData;
-  propensity: TPropensity;
+  stat: { result: TStatData };
+  hyper: { result: THyperData };
+  propensity: { result: TPropensity };
 };
 
 interface TPropensity {
@@ -24,35 +24,7 @@ interface TPropensity {
 import HyperStat from "@/app/_components/HyperStat";
 import StatShow from "@/app/_components/StatShow";
 import { THyperData, TStat } from "@/app/_types/data";
-
-async function fetchData<T extends keyof DataTypeMap>(
-  urlMap: Record<T, string>
-): Promise<{ [K in T]: DataTypeMap[K] }> {
-  try {
-    const entries = Object.entries(urlMap) as [T, string][];
-    const responses = await Promise.all(
-      entries.map(([key, url]) => fetch(url))
-    );
-
-    responses.forEach((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    });
-
-    const data = await Promise.all(responses.map((res) => res.json()));
-
-    const result = entries.reduce((acc, [key], index) => {
-      acc[key] = data[index];
-      return acc;
-    }, {} as { [K in T]: DataTypeMap[K] });
-
-    return result;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
-  }
-}
+import { fetchData } from "@/app/_utils/fetchData";
 
 export default async function StatPage({
   params,
@@ -78,10 +50,13 @@ export default async function StatPage({
   };
 
   const {
-    stat: jsonData,
-    hyper: hyperData,
-    propensity: propensityStats,
-  } = await fetchData(urls);
+    data: {
+      stat: { result: jsonData },
+      hyper: { result: hyperData },
+      propensity: { result: propensityStats },
+    },
+    error,
+  } = await fetchData<DataTypeMap>(urls);
 
   const requiredStats = [
     "최소 스탯공격력",
