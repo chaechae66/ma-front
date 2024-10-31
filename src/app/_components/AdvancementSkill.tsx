@@ -90,10 +90,10 @@ export default function AdvancementSkill({ initialSkills }: Props) {
         ) : skills.character_skill.length === 0 ? (
           <>스킬이 없습니다.</>
         ) : (
-          skills.character_skill.map((elem) => (
+          skills.character_skill.map((elem, index) => (
             <div key={elem.skill_name}>
               <Tooltip show={<DetailSkill elem={elem} />}>
-                <div className="flex flex-col flex-center">
+                <div className={`flex flex-col flex-center`}>
                   <img
                     src={elem.skill_icon}
                     alt={elem.skill_name}

@@ -9,34 +9,31 @@ interface Props {
   data: TLinkedSkill;
 }
 
-// function DetailSkill() {
-//   return (
-//     <div className="w-60 min-h-12">
-//       <h5>{elem.skill_name}</h5>
-//       <div>현재레벨 : {elem.skill_level}</div>
-//       {elem.skill_effect && (
-//         <>
-//           <br />
-//           <p className="text-wrap">{elem.skill_effect}</p>
-//         </>
-//       )}
-//       <br />
-//       <p className="w-full text-wrap">{elem.skill_description}</p>
-//       {elem.skill_effect_next && (
-//         <>
-//           <br />
-//           <p className="text-wrap">{elem.skill_effect_next}</p>
-//         </>
-//       )}
-//     </div>
-//   );
-//   )
-// }
+function DetailSkill({
+  elem,
+}: {
+  elem: Omit<TDetailSkill, "skill_effect_next"> & {
+    skill_effect?: string;
+  };
+}) {
+  return (
+    <div className="w-60 min-h-12">
+      <h5>{elem.skill_name}</h5>
+      <div>현재레벨 : {elem.skill_level}</div>
+      {elem.skill_effect && (
+        <>
+          <br />
+          <p className="text-wrap">{elem.skill_effect}</p>
+        </>
+      )}
+      <br />
+      <p className="w-full text-wrap">{elem.skill_description}</p>
+    </div>
+  );
+}
 
 export default function LinkedSkill({ data }: Props) {
   const [preset, setPreset] = useState(1);
-
-  console.log(5656, data);
 
   return (
     <>
@@ -66,26 +63,26 @@ export default function LinkedSkill({ data }: Props) {
           프리셋 3
         </button>
       </div>
-      <div>
+      <div className="mt-8 grid grid-cols-5">
         {data[`character_link_skill_preset_${preset}`].length === 0 ? (
           <>데이터가 없습니다.</>
         ) : (
           data[`character_link_skill_preset_${preset}`].map((item) => (
             <div key={item.skill_name}>
-              {/* <Tooltip show={<DetailSkill/>}> */}
-              <div className="flex flex-col flex-center">
-                <img
-                  src={item.skill_icon}
-                  alt={item.skill_name}
-                  className="w-14"
-                />
-                <div>
-                  <h4 className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
-                    {item.skill_name}
-                  </h4>
+              <Tooltip show={<DetailSkill elem={item} />}>
+                <div className="flex flex-col flex-center">
+                  <img
+                    src={item.skill_icon}
+                    alt={item.skill_name}
+                    className="w-14"
+                  />
+                  <div>
+                    <h4 className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
+                      {item.skill_name}
+                    </h4>
+                  </div>
                 </div>
-              </div>
-              {/* </Tooltip> */}
+              </Tooltip>
             </div>
           ))
         )}
