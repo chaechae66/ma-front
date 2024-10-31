@@ -21,17 +21,20 @@ function Tooltip({
       const triggerRect = triggerRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
 
-      let top = -tooltipRect.height - 8;
+      let top = triggerRect.height + 8;
       let left = triggerRect.width / 2 - tooltipRect.width / 2;
 
       if (triggerRect.top < tooltipRect.height) {
         top = triggerRect.height + 8;
+        setPosition({ top, left });
+        return;
       }
 
       if (viewportHeight - triggerRect.top < tooltipRect.height) {
         top = -tooltipRect.height - 8;
+        setPosition({ top, left });
+        return;
       }
-
       setPosition({ top, left });
     }
   }, [visible]);
