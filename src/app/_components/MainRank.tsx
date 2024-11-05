@@ -57,7 +57,7 @@ export default function MainRank() {
           params: {
             date: calToday(),
             world_name: selected.dojangRank,
-            difficulty: 0,
+            difficulty: 1,
           },
         })
         .then((res) => {
