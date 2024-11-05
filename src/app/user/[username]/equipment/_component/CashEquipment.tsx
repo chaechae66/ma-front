@@ -6,8 +6,8 @@ interface Props {
 
 import { useState } from "react";
 
-import { CashItemEquipment, TCash } from "../_types/data";
-import Tooltip from "./Tooltip";
+import { CashItemEquipment, TCash } from "@/app/_types/data";
+import Tooltip from "@/app/_components/common/Tooltip";
 
 function DetailCash({ elem }: { elem: CashItemEquipment }) {
   const date = new Date(elem.date_option_expire);
@@ -15,11 +15,13 @@ function DetailCash({ elem }: { elem: CashItemEquipment }) {
     <div className="w-60 min-h-12 text-sm">
       <div className="font-bold text-lg flex flex-wrap justify-center w-full pb-2 border-b-[1px] border-solid border-gray-600 mb-2 ">
         {elem.cash_item_name}
-        {elem.date_option_expire && (
-          <div>{`옵션 만료 기간은 ${date.getFullYear()}년 ${
-            date.getMonth() + 1
-          }월 ${date.getDate()}일 ${date.getHours()}시 까지`}</div>
-        )}
+        <div className="font-light text-xs w-full text-center">
+          {elem.date_option_expire && (
+            <div>{`옵션 만료 기간은 ${date.getFullYear()}년 ${
+              date.getMonth() + 1
+            }월 ${date.getDate()}일 ${date.getHours()}시 까지`}</div>
+          )}
+        </div>
       </div>
       <div className="flex flex-wrap justify-center items-center pb-2 border-b-[1px] border-solid border-gray-600 mb-2 ">
         <img

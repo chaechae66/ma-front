@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { TStat } from "../_types/data";
-import arrowDown from "../../assets/images/arrow_down.svg";
-import arrowUp from "../../assets/images/arrow_up.svg";
+import { TStat } from "@/app/_types/data";
+import arrowDown from "@/assets/images/arrow_down.svg";
+import arrowUp from "@/assets/images/arrow_down.svg";
 
 export default function StatShow({ data }: { data: TStat[] }) {
   const [isShow, setIsShow] = useState(false);

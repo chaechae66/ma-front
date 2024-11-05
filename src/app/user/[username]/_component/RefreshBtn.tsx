@@ -1,6 +1,6 @@
 "use client";
 
-import action from "../actions/action";
+import action from "@/app/actions/action";
 
 interface Props {
   path: string;

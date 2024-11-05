@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { TEquipment, TEquipmentDetail } from "../_types/data";
-import Tooltip from "./Tooltip";
-import Star from "./Star/Star";
+import { TEquipment, TEquipmentDetail } from "@/app/_types/data";
+import Tooltip from "@/app/_components/common/Tooltip";
+import Star from "@/app/_components/Star/Star";
 
 interface Props {
   data: TEquipment;

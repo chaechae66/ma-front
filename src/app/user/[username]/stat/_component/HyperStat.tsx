@@ -4,7 +4,7 @@ interface Props {
   data: THyperData;
 }
 
-import { THyperData } from "../_types/data";
+import { THyperData } from "@/app/_types/data";
 
 import { useState } from "react";
 

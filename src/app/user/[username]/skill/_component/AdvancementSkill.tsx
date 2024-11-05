@@ -2,24 +2,37 @@
 
 interface Props {
   initialSkills: TDefatulSkill;
+  core_data: {
+    enforce_core: string[];
+    skill_core: string[];
+  };
 }
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import Tooltip from "./Tooltip";
-import { TDefatulSkill, TDetailSkill } from "../_types/data";
+import Tooltip from "@/app/_components/common/Tooltip";
+import { TDefatulSkill, TDetailSkill } from "@/app/_types/data";
 
 export const DetailSkill = ({
   elem,
+  remain_level,
 }: {
   elem: TDetailSkill & {
     skill_effect: string | null;
   };
+  remain_level: number | null;
 }) => {
   return (
     <div className="w-60 min-h-12">
       <h5>{elem.skill_name}</h5>
-      <div>현재레벨 : {elem.skill_level}</div>
+      <div>
+        현재레벨 : {elem.skill_level}{" "}
+        {remain_level ? (
+          <span className="text-red-400">( - {remain_level})</span>
+        ) : (
+          ""
+        )}
+      </div>
       {elem.skill_effect && (
         <>
           <br />
@@ -38,7 +51,7 @@ export const DetailSkill = ({
   );
 };
 
-export default function AdvancementSkill({ initialSkills }: Props) {
+export default function AdvancementSkill({ initialSkills, core_data }: Props) {
   const [advancementLevel, setAdvancementLevel] = useState(5);
   const [loading, setLoading] = useState(false);
   const [skills, setSkills] = useState(initialSkills);
@@ -90,24 +103,35 @@ export default function AdvancementSkill({ initialSkills }: Props) {
         ) : skills.character_skill.length === 0 ? (
           <>스킬이 없습니다.</>
         ) : (
-          skills.character_skill.map((elem, index) => (
-            <div key={elem.skill_name}>
-              <Tooltip show={<DetailSkill elem={elem} />}>
-                <div className={`flex flex-col flex-center`}>
-                  <img
-                    src={elem.skill_icon}
-                    alt={elem.skill_name}
-                    className="w-14"
-                  />
-                  <div>
-                    <h4 className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
-                      {elem.skill_name}
-                    </h4>
+          skills.character_skill.map((elem) => {
+            const remain_level = core_data.enforce_core.some(
+              (core) => core == elem.skill_name
+            )
+              ? 60 - elem.skill_level
+              : core_data.skill_core.some((core) => core == elem.skill_name)
+              ? 30 - elem.skill_level
+              : null;
+            return (
+              <div key={elem.skill_name}>
+                <Tooltip
+                  show={<DetailSkill elem={elem} remain_level={remain_level} />}
+                >
+                  <div className={`flex flex-col flex-center`}>
+                    <img
+                      src={elem.skill_icon}
+                      alt={elem.skill_name}
+                      className="w-14"
+                    />
+                    <div>
+                      <h4 className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
+                        {elem.skill_name}
+                      </h4>
+                    </div>
                   </div>
-                </div>
-              </Tooltip>
-            </div>
-          ))
+                </Tooltip>
+              </div>
+            );
+          })
         )}
       </div>
     </>

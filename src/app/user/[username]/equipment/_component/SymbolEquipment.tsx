@@ -1,7 +1,7 @@
 "use client";
 
-import { TDetailSymbol, TSymbolEquipment } from "../_types/data";
-import Tooltip from "./Tooltip";
+import { TDetailSymbol, TSymbolEquipment } from "@/app/_types/data";
+import Tooltip from "@/app/_components/common/Tooltip";
 
 interface Props {
   data: TSymbolEquipment;

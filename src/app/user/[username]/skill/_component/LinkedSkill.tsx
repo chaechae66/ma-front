@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-import { TDetailSkill, TLinkedSkill } from "../_types/data";
-import Tooltip from "./Tooltip";
+import { TDetailSkill, TLinkedSkill } from "@/app/_types/data";
+import Tooltip from "@/app/_components/common/Tooltip";
 
 interface Props {
   data: TLinkedSkill;
