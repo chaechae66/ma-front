@@ -1,4 +1,4 @@
-import RefreshBtn from "@/app/_components/RefreshBtn";
+import RefreshBtn from "@/app/user/[username]/_component/RefreshBtn";
 
 interface TCharacterDefault {
   result: {
@@ -65,17 +65,19 @@ export default async function Page({
             </div>
             <div className="mt-2">
               <p>
-                {`Class Lv.${result.character_class_level} ${result.character_class}`}
+                {`직업 : ${result.character_class}`}
                 <br />
                 {`인기도 : ${result.popularity}`}
                 <br />
-                {`길드 명 : ${
+                {`길드 : ${
                   result.character_guild_name
                     ? result.character_guild_name
                     : "없음"
                 }`}
                 <br />
-                {`경험치 : ${result.character_exp}  경험치 비율 : ${result.character_exp_rate}`}
+                {`경험치 : ${result.character_exp.toLocaleString()}  경험치 비율 : ${
+                  result.character_exp_rate
+                }`}
               </p>
             </div>
           </div>
@@ -86,7 +88,11 @@ export default async function Page({
         <table className="w-full border-b-[1px] border-gray-500 border-solid">
           <tbody>
             <tr>
-              <td className="pb-2 pl-2">{`${statsObject["최소 스탯공격력"]} ~ ${statsObject["최대 스탯공격력"]}`}</td>
+              <td className="pb-2 pl-2">{`${Number(
+                statsObject["최소 스탯공격력"]
+              ).toLocaleString()} ~ ${Number(
+                statsObject["최대 스탯공격력"]
+              ).toLocaleString()}`}</td>
               <td className="pb-2">{statsObject.HP}</td>
               <td className="pb-2">{statsObject.MP}</td>
               <td className="pb-2">{statsObject.STR}</td>
