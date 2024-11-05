@@ -1,7 +1,14 @@
-import CashEquipment from "@/app/_components/CashEquipment";
-import Equipment from "@/app/_components/Equipment";
-import SymbolEquipment from "@/app/_components/SymbolEquipment";
-import { TCash, TEquipment, TSymbolEquipment } from "@/app/_types/data";
+import CashEquipment from "@/app/user/[username]/equipment/_component/CashEquipment";
+import Equipment from "@/app/user/[username]/equipment/_component/Equipment";
+import PetEquipment from "@/app/user/[username]/equipment/_component/PetEquipment";
+import SymbolEquipment from "@/app/user/[username]/equipment/_component/SymbolEquipment";
+import {
+  TAD,
+  TCash,
+  TEquipment,
+  TPet,
+  TSymbolEquipment,
+} from "@/app/_types/data";
 import { fetchData } from "@/app/_utils/fetchData";
 
 interface Props {
@@ -14,6 +21,7 @@ type DataTypeMap = {
   default: { result: TEquipment };
   symbol: { result: TSymbolEquipment };
   cash: { result: TCash };
+  pet: { result: TPet };
 };
 
 export default async function EquipmentPage({ params }: Props) {
@@ -33,6 +41,11 @@ export default async function EquipmentPage({ params }: Props) {
     }/character/cashitem-equipment-info?character_name=${decodeURIComponent(
       params.username
     )}`,
+    pet: `${
+      process.env.NEXT_PUBLIC_BASE_URL
+    }/character/pet-equipment-info?character_name=${decodeURIComponent(
+      params.username
+    )}`,
   };
 
   const {
@@ -40,6 +53,7 @@ export default async function EquipmentPage({ params }: Props) {
       default: { result: defaultData },
       symbol: { result: symbolData },
       cash: { result: cashData },
+      pet: { result: petData },
     },
     error,
   } = await fetchData<DataTypeMap>(urls);
@@ -55,6 +69,9 @@ export default async function EquipmentPage({ params }: Props) {
       <h3 className="text-xl mt-8">캐쉬</h3>
       <hr />
       <CashEquipment data={cashData} />
+      <h3 className="text-xl mt-8">펫</h3>
+      <hr />
+      <PetEquipment data={petData} />
     </>
   );
 }
