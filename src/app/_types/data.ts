@@ -316,3 +316,215 @@ export interface TSymbolEquipment {
   character_class: string;
   symbol: TDetailSymbol[];
 }
+
+interface PetItemOption {
+  option_type: string;
+  option_value: string;
+}
+
+export interface PetEquipment {
+  item_name: string;
+  item_icon: string;
+  item_description: string;
+  item_option: PetItemOption[];
+  scroll_upgrade: number;
+  scroll_upgradable: number;
+  item_shape: string;
+  item_shape_icon: string;
+}
+
+export interface TPet {
+  date: string;
+  pet_1_name: string;
+  pet_1_nickname: string;
+  pet_1_icon: string;
+  pet_1_description: string;
+  pet_1_equipment: PetEquipment;
+  pet_1_auto_skill: {
+    skill_1: string;
+    skill_1_icon: string;
+    skill_2: string;
+    skill_2_icon: string;
+  };
+  pet_1_pet_type: string;
+  pet_1_skill: [string];
+  pet_1_date_expire: string;
+  pet_1_appearance: string;
+  pet_1_appearance_icon: string;
+  pet_2_name: string;
+  pet_2_nickname: string;
+  pet_2_icon: string;
+  pet_2_description: string;
+  pet_2_equipment: PetEquipment;
+  pet_2_auto_skill: {
+    skill_1: string;
+    skill_1_icon: string;
+    skill_2: string;
+    skill_2_icon: string;
+  };
+  pet_2_pet_type: string;
+  pet_2_skill: [string];
+  pet_2_date_expire: string;
+  pet_2_appearance: string;
+  pet_2_appearance_icon: string;
+  pet_3_name: string;
+  pet_3_nickname: string;
+  pet_3_icon: string;
+  pet_3_description: string;
+  pet_3_equipment: PetEquipment;
+  pet_3_auto_skill: {
+    skill_1: string;
+    skill_1_icon: string;
+    skill_2: string;
+    skill_2_icon: string;
+  };
+  pet_3_pet_type: string;
+  pet_3_skill: [string];
+  pet_3_date_expire: string;
+  pet_3_appearance: string;
+  pet_3_appearance_icon: string;
+}
+
+export interface TAD {
+  date: null;
+  android_name: string;
+  android_nickname: string;
+  android_icon: string;
+  android_description: string;
+  android_hair: {
+    hair_name: string;
+    base_color: string;
+    mix_color: string;
+    mix_rate: string;
+  };
+  android_face: {
+    face_name: string;
+    base_color: string;
+    mix_color: string;
+    mix_rate: string;
+  };
+  android_skin: {
+    skin_name: string;
+    color_style: string;
+    hue: number;
+    saturation: number;
+    brightness: number;
+  };
+  android_cash_item_equipment: {
+    cash_item_equipment_part: string;
+    cash_item_equipment_slot: string;
+    cash_item_name: string;
+    cash_item_icon: string;
+    cash_item_description: string;
+    cash_item_option: {
+      option_type: string;
+      option_value: string;
+    }[];
+    date_expire: string;
+    date_option_expire: string;
+    cash_item_label: string;
+    cash_item_coloring_prism: {
+      color_range: string;
+      hue: number;
+      saturation: number;
+      value: number;
+    };
+    android_item_gender: string;
+  }[];
+  android_ear_sensor_clip_flag: string;
+  android_gender: string;
+  android_grade: string;
+  android_non_humanoid_flag: string;
+  android_shop_usable_flag: string;
+  preset_no: number;
+  android_preset_1: {
+    android_name: string;
+    android_nickname: string;
+    android_icon: string;
+    android_description: string;
+    android_gender: string;
+    android_grade: string;
+    android_skin: {
+      skin_name: string;
+      color_style: string;
+      hue: number;
+      saturation: number;
+      brightness: number;
+    };
+    android_hair: {
+      hair_name: string;
+      base_color: string;
+      mix_color: string;
+      mix_rate: string;
+    };
+    android_face: {
+      face_name: string;
+      base_color: string;
+      mix_color: string;
+      mix_rate: string;
+    };
+    android_ear_sensor_clip_flag: string;
+    android_non_humanoid_flag: string;
+    android_shop_usable_flag: string;
+  };
+  android_preset_2: {
+    android_name: string;
+    android_nickname: string;
+    android_icon: string;
+    android_description: string;
+    android_gender: string;
+    android_grade: string;
+    android_skin: {
+      skin_name: string;
+      color_style: string;
+      hue: number;
+      saturation: number;
+      brightness: number;
+    };
+    android_hair: {
+      hair_name: string;
+      base_color: string;
+      mix_color: string;
+      mix_rate: string;
+    };
+    android_face: {
+      face_name: string;
+      base_color: string;
+      mix_color: string;
+      mix_rate: string;
+    };
+    android_ear_sensor_clip_flag: string;
+    android_non_humanoid_flag: string;
+    android_shop_usable_flag: string;
+  };
+  android_preset_3: {
+    android_name: string;
+    android_nickname: string;
+    android_icon: string;
+    android_description: string;
+    android_gender: string;
+    android_grade: string;
+    android_skin: {
+      skin_name: string;
+      color_style: string;
+      hue: number;
+      saturation: number;
+      brightness: number;
+    };
+    android_hair: {
+      hair_name: string;
+      base_color: string;
+      mix_color: string;
+      mix_rate: string;
+    };
+    android_face: {
+      face_name: string;
+      base_color: string;
+      mix_color: string;
+      mix_rate: string;
+    };
+    android_ear_sensor_clip_flag: string;
+    android_non_humanoid_flag: string;
+    android_shop_usable_flag: string;
+  };
+}
