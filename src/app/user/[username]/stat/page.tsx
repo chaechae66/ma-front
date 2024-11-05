@@ -21,8 +21,8 @@ interface TPropensity {
   charm_level: number;
 }
 
-import HyperStat from "@/app/_components/HyperStat";
-import StatShow from "@/app/_components/StatShow";
+import HyperStat from "@/app/user/[username]/stat/_component/HyperStat";
+import StatShow from "@/app/user/[username]/stat/_component/StatShow";
 import { THyperData, TStat } from "@/app/_types/data";
 import { fetchData } from "@/app/_utils/fetchData";
 

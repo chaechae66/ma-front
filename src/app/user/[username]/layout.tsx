@@ -1,4 +1,4 @@
-import CharacterTab from "@/app/_components/CharacterTab";
+import CharacterTab from "@/app/user/[username]/_component/CharacterTab";
 
 export default function UserLayout({
   params,
