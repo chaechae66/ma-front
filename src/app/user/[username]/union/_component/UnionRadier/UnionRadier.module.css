@@ -1,0 +1,6 @@
+.check {
+  background: linear-gradient(to bottom, transparent 14px, #595959 1px) 0 0 /
+      100% 16px repeat-y,
+    linear-gradient(to right, transparent 14px, #595959 1px) 0 0 / 16px 100%
+      repeat-x;
+}

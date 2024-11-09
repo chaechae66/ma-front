@@ -347,7 +347,7 @@ export interface TPet {
     skill_2_icon: string;
   };
   pet_1_pet_type: string;
-  pet_1_skill: [string];
+  pet_1_skill: string[];
   pet_1_date_expire: string;
   pet_1_appearance: string;
   pet_1_appearance_icon: string;
@@ -363,7 +363,7 @@ export interface TPet {
     skill_2_icon: string;
   };
   pet_2_pet_type: string;
-  pet_2_skill: [string];
+  pet_2_skill: string[];
   pet_2_date_expire: string;
   pet_2_appearance: string;
   pet_2_appearance_icon: string;
@@ -379,7 +379,7 @@ export interface TPet {
     skill_2_icon: string;
   };
   pet_3_pet_type: string;
-  pet_3_skill: [string];
+  pet_3_skill: string[];
   pet_3_date_expire: string;
   pet_3_appearance: string;
   pet_3_appearance_icon: string;
@@ -527,4 +527,76 @@ export interface TAD {
     android_non_humanoid_flag: string;
     android_shop_usable_flag: string;
   };
+}
+
+export interface TUnionDefault {
+  date: null;
+  union_level: number;
+  union_grade: string;
+  union_artifact_level: number;
+  union_artifact_exp: number;
+  union_artifact_point: number;
+}
+
+export interface TUnionRaider {
+  date: null;
+  union_raider_stat: string[];
+  union_occupied_stat: string[];
+  union_inner_stat: {
+    stat_field_id: string;
+    stat_field_effect: string;
+  }[];
+  union_block: {
+    block_type: string;
+    block_class: string;
+    block_level: string;
+    block_control_point: {
+      x: number;
+      y: number;
+    };
+    block_position: {
+      x: number;
+      y: number;
+    }[];
+  }[];
+  use_preset_no: number;
+  [key: `union_raider_preset_${number}`]: {
+    union_raider_stat: string[];
+    union_occupied_stat: string[];
+    union_inner_stat: {
+      stat_field_id: string;
+      stat_field_effect: string;
+    }[];
+    union_block: {
+      block_type: string;
+      block_class: string;
+      block_level: string;
+      block_control_point: {
+        x: number;
+        y: number;
+      };
+      block_position: {
+        x: number;
+        y: number;
+      }[];
+    }[];
+  };
+}
+
+export interface TArtifact {
+  date: null;
+  union_artifact_effect: {
+    name: string;
+    level: number;
+  }[];
+  union_artifact_crystal: {
+    name: string;
+    validity_flag: string;
+    date_expire: string;
+    level: number;
+    crystal_option_name_1: string;
+    crystal_option_name_2: string;
+    crystal_option_name_3: string;
+  }[];
+  union_artifact_remain_ap: number;
 }
