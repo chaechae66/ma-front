@@ -53,7 +53,7 @@ export default function RootLayout({
                 </div>
               </div>
             </header>
-            <header className="h-12 opacity-60 bg-[#ffffff40] wrap">
+            <header className="h-12 bg-gray-500 wrap">
               <div className="flex items-center">
                 <Link className="text-white" href={"/"} legacyBehavior={true}>
                   <a className="mr-4">메인</a>
