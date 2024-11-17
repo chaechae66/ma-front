@@ -82,24 +82,19 @@ export default async function UnionPage({ params }: Props) {
       <hr />
       <div className="flex mt-4 gap-4 items-baseline">
         <div className="grid grid-cols-4 w-2/3 text-center gap-4">
-          {artifactData.union_artifact_crystal.map((elem) => {
-            console.log(463, crystal_effects[elem.crystal_option_name_1]);
-            console.log(463, crystal_effects[elem.crystal_option_name_2]);
-            console.log(463, crystal_effects[elem.crystal_option_name_3]);
-            return (
-              <div key={elem.name}>
-                <h4 className="font-bold text-lg">
-                  {elem.name.slice(7, elem.name.length)}
-                </h4>
-                <div className="text-gray-400">Lv.{elem.level}</div>
-                <div className="text-xs">
-                  <span>{crystal_effects[elem.crystal_option_name_1]} </span>
-                  <span>{crystal_effects[elem.crystal_option_name_2]} </span>
-                  <span>{crystal_effects[elem.crystal_option_name_3]}</span>
-                </div>
+          {artifactData.union_artifact_crystal.map((elem) => (
+            <div key={elem.name}>
+              <h4 className="font-bold text-lg">
+                {elem.name.slice(7, elem.name.length)}
+              </h4>
+              <div className="text-gray-400">Lv.{elem.level}</div>
+              <div className="text-xs">
+                <span>{crystal_effects[elem.crystal_option_name_1]} </span>
+                <span>{crystal_effects[elem.crystal_option_name_2]} </span>
+                <span>{crystal_effects[elem.crystal_option_name_3]}</span>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
         <div>
           <h4 className="mb-2 text-lg font-semibold">아키팩트효과</h4>

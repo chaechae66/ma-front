@@ -600,3 +600,43 @@ export interface TArtifact {
   }[];
   union_artifact_remain_ap: number;
 }
+
+export interface TCharcterElem {
+  character_class: string;
+  character_level: number;
+  character_name: string;
+  ocid: string;
+  world_name: string;
+}
+
+export interface TCharcterList {
+  account_id: string;
+  character_list: TCharcterElem[];
+}
+
+export interface TStarforce {
+  after_starforce_count: number;
+  before_starforce_count: number;
+  bonus_stat_upgrade: string;
+  chance_time: string;
+  character_name: string;
+  date_create: string;
+  destroy_defence: string;
+  event_field_flag: string;
+  id: string;
+  item_upgrade_result: string;
+  protect_shield: string;
+  starcatch_result: string;
+  starforce_event_list:
+    | null
+    | {
+        success_rate: string;
+        cost_discount_rate: string;
+        plus_value: string;
+        starforce_event_range: string;
+      }[];
+  superior_item_flag: string;
+  target_item: string;
+  upgrade_item: string;
+  world_name: string;
+}

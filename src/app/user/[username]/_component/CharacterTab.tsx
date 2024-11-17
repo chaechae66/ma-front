@@ -49,19 +49,19 @@ export default function CharacterTab() {
       >
         스킬
       </Link>
-      <Link
+      {/* <Link
         className={`mr-6 text-xl ${
           segment === "cube" && `underline underline-offset-8`
         }`}
         href={`/user/${params.username}/cube`}
       >
         큐브
-      </Link>
+      </Link> */}
       <Link
         className={`mr-6 text-xl ${
-          segment === "startforce" && `underline underline-offset-8`
+          segment === "starforce" && `underline underline-offset-8`
         }`}
-        href={`/user/${params.username}/startforce`}
+        href={`/user/${params.username}/starforce`}
       >
         스타포스
       </Link>
