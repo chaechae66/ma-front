@@ -17,6 +17,18 @@ import Title from "./Title";
 import { calToday } from "../_utils/calculateDay";
 import Link from "next/link";
 
+export const getRankData = async (
+  _selected: string | null
+): Promise<TOverAll[]> =>
+  axios
+    .get("/rank/overall", {
+      params: {
+        date: calToday(),
+        world_name: _selected,
+      },
+    })
+    .then((res) => res.data.result.ranking.slice(0, 10));
+
 export default function MainRank() {
   const [isShow, setIsShow] = useState<TisShow>({
     allRank: true,
@@ -24,33 +36,29 @@ export default function MainRank() {
     notice: true,
   });
   const [selected, setSelected] = useState<Tselected>({
-    allRank: null,
-    dojangRank: null,
+    allRank: "",
+    dojangRank: "",
   });
 
   const {
     data: allRankdata,
+    refetch: allRankRefetch,
+    isFetching: allRankIsFetching,
     isLoading: allRankIsLoading,
     error: allRankError,
   } = useQuery({
-    queryKey: ["overall", selected.allRank],
-    queryFn: (): Promise<TOverAll[]> =>
-      axios
-        .get("/rank/overall", {
-          params: {
-            date: calToday(),
-            world_name: selected.allRank,
-          },
-        })
-        .then((res) => res.data.ranking.slice(0, 10)),
+    queryKey: ["allRank", selected.allRank],
+    queryFn: () => getRankData(selected.allRank),
   });
 
   const {
     data: dojangRankData,
+    refetch: dojangRankRefetch,
+    isFetching: dojangRankIsFetching,
     isLoading: dojangRankIsLoading,
     error: dojangRankError,
   } = useQuery({
-    queryKey: ["dojang", selected.dojangRank],
+    queryKey: ["dojangRank", selected.dojangRank],
     queryFn: (): Promise<TOverAll[]> =>
       axios
         .get("/rank/dojang-rank", {
@@ -61,7 +69,7 @@ export default function MainRank() {
           },
         })
         .then((res) => {
-          return res.data.ranking.slice(0, 10).map((elem: TDojang) => {
+          return res.data.result.ranking.slice(0, 10).map((elem: TDojang) => {
             const minutes = elem.dojang_time_record / 60;
             const seconds = elem.dojang_time_record % 60;
             return {
@@ -76,6 +84,8 @@ export default function MainRank() {
 
   const {
     data: noticeData,
+    refetch: noticeRefetch,
+    isFetching: noticeIsFetching,
     isLoading: noticeIsLoading,
     error: noticeError,
   } = useQuery({
@@ -100,6 +110,7 @@ export default function MainRank() {
           isShow={isShow}
           setIsShow={setIsShow}
           type={"allRank"}
+          refetch={allRankRefetch}
         />
         {isShow.allRank ? (
           <>
@@ -108,7 +119,7 @@ export default function MainRank() {
               setSelected={setSelected}
               type={"allRank"}
             />
-            {allRankIsLoading ? (
+            {allRankIsLoading || allRankIsFetching ? (
               <>로딩 중입니다...</>
             ) : (
               <RankingList<TOverAll>
@@ -131,6 +142,7 @@ export default function MainRank() {
           isShow={isShow}
           setIsShow={setIsShow}
           type={"dojangRank"}
+          refetch={dojangRankRefetch}
         />
         {isShow.dojangRank ? (
           <>
@@ -139,7 +151,7 @@ export default function MainRank() {
               setSelected={setSelected}
               type={"dojangRank"}
             />
-            {dojangRankIsLoading ? (
+            {dojangRankIsLoading || dojangRankIsFetching ? (
               <>로딩 중입니다...</>
             ) : (
               <RankingList<TDojang>
@@ -162,6 +174,7 @@ export default function MainRank() {
           isShow={isShow}
           setIsShow={setIsShow}
           type={"notice"}
+          refetch={noticeRefetch}
         />
         {isShow.notice ? (
           <>
@@ -170,7 +183,7 @@ export default function MainRank() {
                 <Link href={"/"}>더보기</Link>
               </button>
             </div>
-            {noticeIsLoading ? (
+            {noticeIsLoading || noticeIsFetching ? (
               <>로딩 중입니다...</>
             ) : (
               <RankingList<TNoticeRanking>
