@@ -29,7 +29,7 @@ export default function RootLayout({
         <body
           className={`bg-zinc-900 text-white ${notoSansKr.className} font-light`}
         >
-          <div className="top-0 left-0 right-0 fixed z-10">
+          <div className="top-0 left-0 right-0 fixed z-50">
             <header className="h-20 bg-zinc-700 w-full wrap flex-center">
               <div className="flex-between">
                 <h2>
