@@ -1,6 +1,8 @@
 "use client";
 
 import { TisShow } from "../_types/props";
+import { IoMdRefreshCircle } from "react-icons/io";
+
 import arrowUp from "@/assets/images/arrow_up.svg";
 import arrowDown from "@/assets/images/arrow_down.svg";
 
@@ -9,12 +11,22 @@ interface Props {
   isShow: TisShow;
   setIsShow: React.Dispatch<React.SetStateAction<TisShow>>;
   type: "allRank" | "dojangRank" | "notice";
+  refetch: () => void;
 }
 
-export default function Title({ title, isShow, setIsShow, type }: Props) {
+export default function Title({
+  title,
+  isShow,
+  setIsShow,
+  type,
+  refetch,
+}: Props) {
   return (
     <nav className="mt-20 pb-6 flex-between border-b-[1px] border-white">
-      <h4 className="text-2xl font-bold">{title}</h4>
+      <div className="flex flex-center">
+        <h4 className="text-2xl font-bold mr-1">{title}</h4>
+        <IoMdRefreshCircle size={25} onClick={refetch} />
+      </div>
       {isShow[type] ? (
         <img
           onClick={() => {
