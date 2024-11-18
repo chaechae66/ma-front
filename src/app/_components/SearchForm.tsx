@@ -10,14 +10,24 @@ import { useState } from "react";
 export default function SearchForm() {
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
+  const [category, setCategory] = useState("캐릭터");
 
   const goToUserPage = () => {
-    router.push(`/user/${inputValue}/default`);
+    if (category === "캐릭터") {
+      router.push(`/user/${inputValue}/default`);
+    } else if (category === "길드") {
+      router.push(`/guilds/${inputValue}`);
+    }
   };
 
   return (
     <div className="relative w-[28rem] h-12 mt-8">
-      <select className="absolute w-28 rounded-l-full h-full px-4 border-r-[1px] border-white">
+      <select
+        onChange={(e) => {
+          setCategory(e.target.value);
+        }}
+        className="absolute w-28 rounded-l-full h-full px-4 border-r-[1px] border-white"
+      >
         <option>캐릭터</option>
         <option>길드</option>
       </select>
