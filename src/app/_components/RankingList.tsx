@@ -1,12 +1,13 @@
+import Link from "next/link";
+
 interface Props<T> {
   tableTitles: { title: string; key: keyof T }[];
   data: T[];
 }
 
-export default function RankingList<T extends { ranking: number }>({
-  tableTitles,
-  data,
-}: Props<T>) {
+export default function RankingList<
+  T extends { ranking: number; url?: string }
+>({ tableTitles, data }: Props<T>) {
   return (
     <>
       <table className="w-full text-center">
@@ -18,18 +19,36 @@ export default function RankingList<T extends { ranking: number }>({
           </tr>
         </thead>
         <tbody>
-          {data.map((elem) => (
-            <tr
-              className="h-12 border-b-[1px] border-zinc-500"
-              key={elem.ranking}
-            >
-              {tableTitles.map((value) => (
-                <td key={value.title}>
-                  {(elem[value.key] as React.ReactNode) || "-"}
-                </td>
-              ))}
-            </tr>
-          ))}
+          {data?.map((elem) => {
+            if (elem.url) {
+              return (
+                <tr
+                  className="h-12 border-b-[1px] border-zinc-500"
+                  key={elem.ranking}
+                >
+                  {tableTitles.map((value) => (
+                    <td key={value.title}>
+                      <Link href={elem.url!}>
+                        {(elem[value.key] as React.ReactNode) || "-"}
+                      </Link>
+                    </td>
+                  ))}
+                </tr>
+              );
+            }
+            return (
+              <tr
+                className="h-12 border-b-[1px] border-zinc-500"
+                key={elem.ranking}
+              >
+                {tableTitles.map((value) => (
+                  <td key={value.title}>
+                    {(elem[value.key] as React.ReactNode) || "-"}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </>

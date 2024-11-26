@@ -180,7 +180,7 @@ export default function MainRank() {
           <>
             <div className="w-full flex justify-end">
               <button className="none-seleceted-btn mr-0 mt-8 mb-4">
-                <Link href={"/"}>더보기</Link>
+                <Link href={"/notices"}>더보기</Link>
               </button>
             </div>
             {noticeIsLoading || noticeIsFetching ? (
