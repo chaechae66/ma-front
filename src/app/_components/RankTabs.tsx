@@ -89,7 +89,7 @@ export default function RankTabs({ selected, setSelected, type }: Props) {
         </button>
       </div>
       <button className="none-seleceted-btn mr-0">
-        <Link href={"/"}>더보기</Link>
+        <Link href={`/${type}`}>더보기</Link>
       </button>
     </div>
   );
