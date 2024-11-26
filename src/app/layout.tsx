@@ -38,7 +38,7 @@ export default function RootLayout({
                   </Link>
                 </h2>
                 <div className="relative w-72">
-                  <input
+                  {/* <input
                     type="text"
                     className="w-full h-10 border-[1px] border-white rounded-full p-1 pl-4"
                   />
@@ -49,11 +49,11 @@ export default function RootLayout({
                       width={15}
                       height={18}
                     />
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </header>
-            <header className="h-12 bg-gray-500 wrap">
+            {/* <header className="h-12 bg-gray-500 wrap">
               <div className="flex items-center">
                 <Link className="text-white" href={"/"} legacyBehavior={true}>
                   <a className="mr-4">메인</a>
@@ -66,7 +66,7 @@ export default function RootLayout({
                   <a className="mr-4">랭킹</a>
                 </Link>
               </div>
-            </header>
+            </header> */}
           </div>
           <main className="min-h-[calc(100vh_-_theme('spacing.20'))]">
             {children}

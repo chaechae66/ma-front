@@ -57,14 +57,14 @@ export default function CharacterTab() {
       >
         큐브
       </Link> */}
-      <Link
+      {/* <Link
         className={`mr-6 text-xl ${
           segment === "starforce" && `underline underline-offset-8`
         }`}
         href={`/user/${params.username}/starforce`}
       >
         스타포스
-      </Link>
+      </Link> */}
     </div>
   );
 }
