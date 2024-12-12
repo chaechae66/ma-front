@@ -1,11 +1,10 @@
 "use client";
 
-import searchIcon from "@/assets/images/search.svg";
-import useDebounce from "../_hook/useDebounce";
+import styles from "./SearchForm.module.css";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { IoIosSearch } from "react-icons/io";
 
 export default function SearchForm() {
   const router = useRouter();
@@ -13,6 +12,10 @@ export default function SearchForm() {
   const [category, setCategory] = useState("캐릭터");
 
   const goToUserPage = () => {
+    if (inputValue.length === 0) {
+      alert("검색어를 입력해주세요");
+      return;
+    }
     if (category === "캐릭터") {
       router.push(`/user/${inputValue}/default`);
     } else if (category === "길드") {
@@ -26,7 +29,7 @@ export default function SearchForm() {
         onChange={(e) => {
           setCategory(e.target.value);
         }}
-        className="absolute w-28 rounded-l-full h-full px-4 border-r-[1px] border-white"
+        className={`absolute w-28 rounded-l-full h-full px-4 border-r-[1px] border-white appearance-none ${styles.selectBox}`}
       >
         <option>캐릭터</option>
         <option>길드</option>
@@ -49,7 +52,7 @@ export default function SearchForm() {
           goToUserPage();
         }}
       >
-        <Image src={searchIcon} alt="검색버튼" width={17} height={18} />
+        <IoIosSearch size={25} />
       </button>
     </div>
   );
