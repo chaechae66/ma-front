@@ -1,6 +1,7 @@
 import { TArtifact, TUnionDefault, TUnionRaider } from "@/app/_types/data";
 import { fetchData } from "@/app/_utils/fetchData";
 import UnionRadier from "./_component/UnionRadier/UnionRadier";
+import RefreshBtn from "../_component/RefreshBtn";
 
 interface Props {
   params: {
@@ -33,12 +34,28 @@ export default async function UnionPage({ params }: Props) {
 
   const {
     data: {
-      default: { result: defaultUnionData },
-      artifact: { result: artifactData },
-      raider: { result: raiderUnionData },
+      default: defaultUnionData,
+      artifact: artifactData,
+      raider: raiderUnionData,
     },
     error,
   } = await fetchData<DataTypeMap>(urls);
+
+  if (error?.details?.result.error.message === "Please input valid parameter") {
+    return (
+      <>
+        <p>해당 결과가 없습니다.</p>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <p>Error {error.message}</p>
+      </>
+    );
+  }
 
   const crystal_effects: {
     [key: string]: string;
@@ -63,26 +80,33 @@ export default async function UnionPage({ params }: Props) {
 
   return (
     <>
-      <h3 className="text-xl">유니온</h3>
+      <div className="flex-between mb-2">
+        <h3 className="text-xl">유니온</h3>
+        <RefreshBtn
+          paths={Object.entries(urls).map(([key, value]) =>
+            value.replace(process.env.NEXT_PUBLIC_BASE_URL!, "")
+          )}
+        />
+      </div>
       <hr />
       <div className="border-b-[1px] border-solid border-gray-500 py-4 font-bold text-2xl">
-        {defaultUnionData.union_grade}
+        {defaultUnionData.result.union_grade}
       </div>
       <div className="border-b-[1px] border-solid border-gray-500 py-2 grid grid-cols-4 grid-rows-2">
         <div className="text-gray-400">유니온 총 레벨</div>
         <div className="text-gray-400">아티펙트 레벨</div>
         <div className="text-gray-400">이티펙트 경험치</div>
         <div className="text-gray-400">아티펙트 포인트</div>
-        <div>{defaultUnionData.union_level}</div>
-        <div>{defaultUnionData.union_artifact_level}</div>
-        <div>{defaultUnionData.union_artifact_exp}</div>
-        <div>{defaultUnionData.union_artifact_point}</div>
+        <div>{defaultUnionData.result.union_level}</div>
+        <div>{defaultUnionData.result.union_artifact_level}</div>
+        <div>{defaultUnionData.result.union_artifact_exp}</div>
+        <div>{defaultUnionData.result.union_artifact_point}</div>
       </div>
-      <h3 className="text-xl mt-10">아키팩트</h3>
+      <h3 className="text-xl mt-10 mb-2">아키팩트</h3>
       <hr />
       <div className="flex mt-4 gap-4 items-baseline">
         <div className="grid grid-cols-4 w-2/3 text-center gap-4">
-          {artifactData.union_artifact_crystal.map((elem) => (
+          {artifactData.result.union_artifact_crystal.map((elem) => (
             <div key={elem.name}>
               <h4 className="font-bold text-lg">
                 {elem.name.slice(7, elem.name.length)}
@@ -99,7 +123,7 @@ export default async function UnionPage({ params }: Props) {
         <div>
           <h4 className="mb-2 text-lg font-semibold">아키팩트효과</h4>
           <div>
-            {artifactData.union_artifact_effect.map((elem) => (
+            {artifactData.result.union_artifact_effect.map((elem) => (
               <div className="mb-1">
                 <span className="text-gray-400 text-sm">LV.{elem.level} </span>
                 <span>{elem.name}</span>
@@ -108,11 +132,11 @@ export default async function UnionPage({ params }: Props) {
           </div>
         </div>
       </div>
-      <h3 className="text-xl mt-10">공격대</h3>
+      <h3 className="text-xl mt-10 mb-2">공격대</h3>
       <hr />
       <UnionRadier
-        data={raiderUnionData}
-        level={defaultUnionData.union_level}
+        data={raiderUnionData.result}
+        level={defaultUnionData.result.union_level}
       />
     </>
   );

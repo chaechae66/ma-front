@@ -25,6 +25,7 @@ import HyperStat from "@/app/user/[username]/stat/_component/HyperStat";
 import StatShow from "@/app/user/[username]/stat/_component/StatShow";
 import { THyperData, TStat } from "@/app/_types/data";
 import { fetchData } from "@/app/_utils/fetchData";
+import RefreshBtn from "../_component/RefreshBtn";
 
 export default async function StatPage({
   params,
@@ -50,13 +51,25 @@ export default async function StatPage({
   };
 
   const {
-    data: {
-      stat: { result: jsonData },
-      hyper: { result: hyperData },
-      propensity: { result: propensityStats },
-    },
+    data: { stat: jsonData, hyper: hyperData, propensity: propensityStats },
     error,
   } = await fetchData<DataTypeMap>(urls);
+
+  if (error?.details?.result.error.message === "Please input valid parameter") {
+    return (
+      <>
+        <p>해당 결과가 없습니다.</p>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <p>Error {error.message}</p>
+      </>
+    );
+  }
 
   const requiredStats = [
     "최소 스탯공격력",
@@ -69,7 +82,7 @@ export default async function StatPage({
     "MP",
   ];
 
-  const [neededStats, otherStats] = jsonData.final_stat.reduce<
+  const [neededStats, otherStats] = jsonData.result.final_stat?.reduce<
     [TStat[], TStat[]]
   >(
     (acc, stat) => {
@@ -94,10 +107,17 @@ export default async function StatPage({
 
   return (
     <>
-      <h3 className="text-xl">스탯</h3>
+      <div className="mb-2 flex-between">
+        <h3 className="text-xl">스탯</h3>
+        <RefreshBtn
+          paths={Object.entries(urls).map(([key, value]) =>
+            value.replace(process.env.NEXT_PUBLIC_BASE_URL!, "")
+          )}
+        />
+      </div>
       <hr />
       <div className="py-4 pb-8 text-lg border-b-[1px] border-solid border-gray-500">
-        남은 AP : <b>{jsonData.remain_ap}</b>
+        남은 AP : <b>{jsonData.result.remain_ap}</b>
       </div>
       <table className="w-full border-b-[1px] border-slid border-gray-500">
         <thead>
@@ -120,13 +140,13 @@ export default async function StatPage({
         </tbody>
       </table>
       <StatShow data={otherStats} />
-      <h3 className="text-xl">하이퍼 스탯</h3>
+      <h3 className="text-xl mb-2">하이퍼 스탯</h3>
       <hr />
-      <HyperStat data={hyperData} />
-      <h3 className="text-xl mt-8">성향</h3>
+      <HyperStat data={hyperData.result} />
+      <h3 className="text-xl mt-8 mb-2">성향</h3>
       <hr />
       <div className="grid grid-cols-6">
-        {Object.entries(propensityStats).map(([, value], index) => {
+        {Object.entries(propensityStats.result).map(([, value], index) => {
           if (index === 0) return;
 
           return (

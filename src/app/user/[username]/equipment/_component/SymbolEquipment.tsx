@@ -2,6 +2,7 @@
 
 import { TDetailSymbol, TSymbolEquipment } from "@/app/_types/data";
 import Tooltip from "@/app/_components/common/Tooltip";
+import NoImage from "@/assets/images/no_image.svg";
 
 interface Props {
   data: TSymbolEquipment;
@@ -17,11 +18,15 @@ function DetailEquipment({ elem }: { elem: TDetailSymbol }) {
         <span>{elem.symbol_name}</span>
       </div>
       <div className="flex items-center justify-center pb-2 border-b-[1px] border-solid border-gray-600 mb-2 ">
-        <img
-          src={elem.symbol_icon}
-          alt={elem.symbol_name}
-          className="w-12 h-12 mr-2"
-        />
+        {elem.symbol_icon ? (
+          <img
+            src={elem.symbol_icon}
+            alt={elem.symbol_name}
+            className="w-12 h-12 mr-2"
+          />
+        ) : (
+          <img src={NoImage.src} alt="이미지 없음" />
+        )}
       </div>
       <div>
         <div className="border-b-[1px] border-solid border-gray-600 pb-2 mb-2">
@@ -62,11 +67,15 @@ export default function SymbolEquipment({ data }: Props) {
             <div key={elem.symbol_name}>
               <Tooltip show={<DetailEquipment elem={elem} />}>
                 <div className="flex flex-col flex-center">
-                  <img
-                    src={elem.symbol_icon}
-                    alt={elem.symbol_name}
-                    className="w-14 h-14"
-                  />
+                  {elem.symbol_icon ? (
+                    <img
+                      src={elem.symbol_icon}
+                      alt={elem.symbol_name}
+                      className="w-12 h-12 mr-2"
+                    />
+                  ) : (
+                    <img src={NoImage.src} alt="이미지 없음" />
+                  )}
                   <div>
                     <h4 className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
                       {elem.symbol_name}

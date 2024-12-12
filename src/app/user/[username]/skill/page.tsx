@@ -2,6 +2,7 @@ import AdvancementSkill from "@/app/user/[username]/skill/_component/Advancement
 import LinkedSkill from "@/app/user/[username]/skill/_component/LinkedSkill";
 import { TDefatulSkill, TLinkedSkill, TVmatrix } from "@/app/_types/data";
 import { fetchData } from "@/app/_utils/fetchData";
+import RefreshBtn from "../_component/RefreshBtn";
 
 interface Props {
   params: {
@@ -38,15 +39,31 @@ export default async function SkillPage({ params }: Props) {
 
   const {
     data: {
-      default: { result: defaultSkillData },
-      link: { result: linkSkillData },
-      vmatrix: { result: vmatrixData },
+      default: defaultSkillData,
+      link: linkSkillData,
+      vmatrix: vmatrixData,
     },
     error,
   } = await fetchData<DataTypeMap>(urls);
 
+  if (error?.details?.result.error.message === "Please input valid parameter") {
+    return (
+      <>
+        <p>해당 결과가 없습니다.</p>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <p>Error {error.message}</p>
+      </>
+    );
+  }
+
   const enforce_core = (
-    vmatrixData.character_v_core_equipment as CharacterVCoreEquipment
+    vmatrixData.result.character_v_core_equipment as CharacterVCoreEquipment
   ).reduce((acc, cur) => {
     if (cur.v_core_type === "강화코어") {
       if (!acc.some((item) => item === cur.v_core_skill_1)) {
@@ -63,7 +80,7 @@ export default async function SkillPage({ params }: Props) {
   }, [] as string[]);
 
   const skill_core = (
-    vmatrixData.character_v_core_equipment as CharacterVCoreEquipment
+    vmatrixData.result.character_v_core_equipment as CharacterVCoreEquipment
   ).reduce((acc, cur) => {
     if (cur.v_core_type === "스킬코어") {
       if (!acc.some((item) => item === cur.v_core_name)) {
@@ -80,15 +97,22 @@ export default async function SkillPage({ params }: Props) {
 
   return (
     <>
-      <h3 className="text-xl">스킬</h3>
+      <div className="mb-2 flex-between">
+        <h3 className="text-xl">스킬</h3>
+        <RefreshBtn
+          paths={Object.entries(urls).map(([key, value]) =>
+            value.replace(process.env.NEXT_PUBLIC_BASE_URL!, "")
+          )}
+        />
+      </div>
       <hr />
       <AdvancementSkill
-        initialSkills={defaultSkillData}
+        initialSkills={defaultSkillData.result}
         core_data={core_data}
       />
-      <h3 className="text-xl mt-10">링크스킬</h3>
+      <h3 className="text-xl mt-10 mb-2">링크스킬</h3>
       <hr />
-      <LinkedSkill data={linkSkillData} />
+      <LinkedSkill data={linkSkillData.result} />
     </>
   );
 }

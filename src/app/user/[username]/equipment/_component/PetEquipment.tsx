@@ -2,6 +2,9 @@
 
 import { TPet } from "@/app/_types/data";
 import Tooltip from "@/app/_components/common/Tooltip";
+import NoImage from "@/assets/images/no_image.svg";
+import { useState } from "react";
+import Image from "next/image";
 
 interface ItemOption {
   option_type: string;
@@ -33,6 +36,7 @@ interface Props {
 }
 
 function DetailPet({ elem }: { elem: Pet }) {
+  const [isError, setIsError] = useState(false);
   const date = new Date(elem.date_expire);
   return (
     <div className="w-60 min-h-12 text-sm">
@@ -47,11 +51,26 @@ function DetailPet({ elem }: { elem: Pet }) {
         </div>
       </div>
       <div className="flex flex-wrap justify-center items-center pb-2 border-b-[1px] border-solid border-gray-600 mb-2 ">
-        <img
-          src={elem.icon}
-          alt={elem.name!}
-          className="w-12 h-12 mr-2 self-start"
-        />
+        {isError ? (
+          <Image
+            width={12}
+            height={12}
+            src={elem.icon}
+            alt={elem.name!}
+            onError={() => {
+              setIsError(true);
+            }}
+            className="mr-2 self-start"
+          />
+        ) : (
+          <Image
+            width={45}
+            height={45}
+            src={NoImage.src}
+            alt="이미지 없음"
+            className="mr-2 self-start"
+          />
+        )}
         {elem.description && (
           <div className="w-44 text-wrap">
             <div>{elem.description}</div>
@@ -72,11 +91,15 @@ function DetailEquipment({ elem }: { elem: Pet }) {
         {elem.equipment.item_name}
       </div>
       <div className="flex flex-wrap justify-center items-center pb-2 border-b-[1px] border-solid border-gray-600 mb-2 ">
-        <img
-          src={elem.equipment.item_icon}
-          alt={elem.equipment.item_name}
-          className="w-12 h-12 mr-2 self-start"
-        />
+        {elem.equipment.item_icon ? (
+          <img
+            src={elem.equipment.item_icon}
+            alt={elem.equipment.item_name}
+            className="w-12 h-12 mr-2 self-start"
+          />
+        ) : (
+          <img src={NoImage.src} alt="이미지 없음" />
+        )}
         {elem.equipment.item_description && (
           <div className="w-44 text-wrap">
             <div>{elem.equipment.item_description}</div>
@@ -92,6 +115,39 @@ function DetailEquipment({ elem }: { elem: Pet }) {
         ))}
       </div>
       <div>업그레이드 횟수 : {elem.equipment.scroll_upgrade}</div>
+    </div>
+  );
+}
+
+function ShowPet({ elem }: { elem: Pet }) {
+  const [isError, setIsError] = useState(false);
+  return (
+    <div className="flex flex-col flex-center w-full">
+      {isError ? (
+        <Image
+          width={12}
+          height={12}
+          src={elem.icon}
+          alt={elem.name!}
+          onError={() => {
+            setIsError(true);
+          }}
+          className="w-14 h-14"
+        />
+      ) : (
+        <Image
+          width={45}
+          height={45}
+          src={NoImage.src}
+          alt="이미지 없음"
+          className="mr-2"
+        />
+      )}
+      <div>
+        <h4 className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
+          {elem.name}
+        </h4>
+      </div>
     </div>
   );
 }
@@ -125,22 +181,19 @@ export default function PetEquipment({ data }: Props) {
           ) : (
             <div key={elem.name} className="mt-8 flex flex-col">
               <Tooltip show={<DetailPet elem={elem}></DetailPet>}>
-                <div className="flex flex-col flex-center w-full">
-                  <img src={elem.icon} alt={elem.name} className="w-14 h-14" />
-                  <div>
-                    <h4 className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
-                      {elem.name}
-                    </h4>
-                  </div>
-                </div>
+                <ShowPet elem={elem} />
               </Tooltip>
               <Tooltip show={<DetailEquipment elem={elem}></DetailEquipment>}>
                 <div className="flex flex-col flex-center mt-5 w-full">
-                  <img
-                    src={elem.equipment.item_icon}
-                    alt={elem.equipment.item_name}
-                    className="w-14 h-14"
-                  />
+                  {elem.equipment.item_icon ? (
+                    <img
+                      src={elem.equipment.item_icon}
+                      alt={elem.equipment.item_name}
+                      className="w-14 h-14"
+                    />
+                  ) : (
+                    <img src={NoImage.src} alt="이미지 없음" />
+                  )}
                   <div>
                     <h4 className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
                       {elem.equipment.item_name}

@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+
 import { TEquipment, TEquipmentDetail } from "@/app/_types/data";
 import Tooltip from "@/app/_components/common/Tooltip";
 import Star from "@/app/_components/Star/Star";
+import NoImage from "@/assets/images/no_image.svg";
 
 interface Props {
   data: TEquipment;
@@ -65,11 +67,15 @@ function DetailEquipment({ elem }: { elem: TEquipmentDetail }) {
         ({elem.potential_option_grade || "일반"} 장비)
       </div>
       <div className="flex items-center pb-2 border-b-[1px] border-solid border-gray-600 mb-2 ">
-        <img
-          src={elem.item_icon}
-          alt={elem.item_name}
-          className="w-12 h-12 mr-2"
-        />
+        {elem.item_icon ? (
+          <img
+            src={elem.item_icon}
+            alt={elem.item_name}
+            className="w-12 h-12 mr-2"
+          />
+        ) : (
+          <img src={NoImage.src} alt="이미지 없음" />
+        )}
         <span>REQ LEV : {elem.item_base_option.base_equipment_level}</span>
       </div>
       <div>
@@ -183,11 +189,15 @@ export default function Equipment({ data }: Props) {
             <div key={elem.item_name}>
               <Tooltip show={<DetailEquipment elem={elem} />}>
                 <div className="flex flex-col flex-center">
-                  <img
-                    src={elem.item_icon}
-                    alt={elem.item_name}
-                    className="w-14 h-14"
-                  />
+                  {elem.item_icon ? (
+                    <img
+                      src={elem.item_icon}
+                      alt={elem.item_name}
+                      className="w-12 h-12 mr-2"
+                    />
+                  ) : (
+                    <img src={NoImage.src} alt="이미지 없음" />
+                  )}
                   <div>
                     <h4 className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
                       {elem.item_name}

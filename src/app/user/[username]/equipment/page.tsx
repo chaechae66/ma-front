@@ -10,6 +10,7 @@ import {
   TSymbolEquipment,
 } from "@/app/_types/data";
 import { fetchData } from "@/app/_utils/fetchData";
+import RefreshBtn from "../_component/RefreshBtn";
 
 interface Props {
   params: {
@@ -50,28 +51,51 @@ export default async function EquipmentPage({ params }: Props) {
 
   const {
     data: {
-      default: { result: defaultData },
-      symbol: { result: symbolData },
-      cash: { result: cashData },
-      pet: { result: petData },
+      default: defaultData,
+      symbol: symbolData,
+      cash: cashData,
+      pet: petData,
     },
     error,
   } = await fetchData<DataTypeMap>(urls);
 
+  if (error?.details?.result.error.message === "Please input valid parameter") {
+    return (
+      <>
+        <p>해당 결과가 없습니다.</p>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <p>Error {error.message}</p>
+      </>
+    );
+  }
+
   return (
     <>
-      <h3 className="text-xl">장비</h3>
+      <div className="flex-between mb-2">
+        <h3 className="text-xl">장비</h3>
+        <RefreshBtn
+          paths={Object.entries(urls).map(([key, value]) =>
+            value.replace(process.env.NEXT_PUBLIC_BASE_URL!, "")
+          )}
+        />
+      </div>
       <hr />
-      <Equipment data={defaultData} />
-      <h3 className="text-xl mt-8">심볼</h3>
+      <Equipment data={defaultData.result} />
+      <h3 className="text-xl mt-8 mb-2">심볼</h3>
       <hr />
-      <SymbolEquipment data={symbolData} />
-      <h3 className="text-xl mt-8">캐쉬</h3>
+      <SymbolEquipment data={symbolData.result} />
+      <h3 className="text-xl mt-8 mb-2">캐쉬</h3>
       <hr />
-      <CashEquipment data={cashData} />
-      <h3 className="text-xl mt-8">펫</h3>
+      <CashEquipment data={cashData.result} />
+      <h3 className="text-xl mt-8 mb-2">펫</h3>
       <hr />
-      <PetEquipment data={petData} />
+      <PetEquipment data={petData.result} />
     </>
   );
 }

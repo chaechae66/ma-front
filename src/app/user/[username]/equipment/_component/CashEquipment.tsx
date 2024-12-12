@@ -8,6 +8,7 @@ import { useState } from "react";
 
 import { CashItemEquipment, TCash } from "@/app/_types/data";
 import Tooltip from "@/app/_components/common/Tooltip";
+import NoImage from "@/assets/images/no_image.svg";
 
 function DetailCash({ elem }: { elem: CashItemEquipment }) {
   const date = new Date(elem.date_option_expire);
@@ -24,11 +25,15 @@ function DetailCash({ elem }: { elem: CashItemEquipment }) {
         </div>
       </div>
       <div className="flex flex-wrap justify-center items-center pb-2 border-b-[1px] border-solid border-gray-600 mb-2 ">
-        <img
-          src={elem.cash_item_icon}
-          alt={elem.cash_item_name}
-          className="w-12 h-12 mr-2 self-start"
-        />
+        {elem.cash_item_icon ? (
+          <img
+            src={elem.cash_item_icon}
+            alt={elem.cash_item_name}
+            className="w-12 h-12 mr-2 self-start"
+          />
+        ) : (
+          <img src={NoImage.src} alt="이미지 없음" />
+        )}
         {(elem.cash_item_description || elem.cash_item_option.length !== 0) && (
           <div className="w-44 text-wrap">
             <div>{elem.cash_item_description}</div>
@@ -87,11 +92,15 @@ export default function CashEquipment({ data }: Props) {
             <div key={elem.cash_item_name}>
               <Tooltip show={<DetailCash elem={elem} />}>
                 <div className="flex flex-col flex-center">
-                  <img
-                    src={elem.cash_item_icon}
-                    alt={elem.cash_item_name}
-                    className="w-14 h-14"
-                  />
+                  {elem.cash_item_icon ? (
+                    <img
+                      src={elem.cash_item_icon}
+                      alt={elem.cash_item_name}
+                      className="w-14 h-14"
+                    />
+                  ) : (
+                    <img src={NoImage.src} alt="이미지 없음" />
+                  )}
                   <div className="text-gray-400 w-20 text-center text-nowrap text-ellipsis break-all overflow-hidden">
                     {elem.cash_item_name}
                   </div>

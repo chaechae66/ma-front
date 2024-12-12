@@ -1,14 +1,19 @@
 "use client";
 
 import action from "@/app/actions/action";
+import { IoMdRefreshCircle } from "react-icons/io";
 
 interface Props {
-  path: string;
+  paths: string[];
 }
 
-export default function RefreshBtn({ path }: Props) {
+export default function RefreshBtn({ paths }: Props) {
   const handleRefresh = async () => {
-    await action(path);
+    paths?.forEach(async (path) => {
+      await action(path);
+    });
   };
-  return <button onClick={handleRefresh}>새로고침</button>;
+  return (
+    <IoMdRefreshCircle className="mt-1" size={25} onClick={handleRefresh} />
+  );
 }

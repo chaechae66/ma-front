@@ -1,6 +1,10 @@
 interface FetchResult<T> {
   data: { [K in keyof T]: T[K] };
-  error: Error | null;
+  error: {
+    name: string;
+    message: string;
+    details: { result: { error: { name: string; message: string } } };
+  } | null;
 }
 
 export async function fetchData<T>(
@@ -12,13 +16,18 @@ export async function fetchData<T>(
       entries.map(([key, url]) => fetch(url))
     );
 
-    responses.forEach((response) => {
+    for (const response of responses) {
       if (!response.ok) {
+        const errorData = await response.json();
         throw new Error(
-          `HTTP error! status: ${response.status} for URL: ${response.url}`
+          JSON.stringify({
+            name: "HTTPError",
+            message: `HTTP error! status: ${response.status} for URL: ${response.url}`,
+            details: errorData,
+          })
         );
       }
-    });
+    }
 
     const data = await Promise.all(responses.map((res) => res.json()));
 
@@ -30,6 +39,16 @@ export async function fetchData<T>(
     return { data: result, error: null };
   } catch (error) {
     console.error("Error fetching data:", error);
-    return { data: {} as T, error: error as Error };
+
+    let errorResult;
+    if (error instanceof Error) {
+      try {
+        errorResult = JSON.parse(error.message);
+      } catch (parseError) {
+        errorResult = { name: "UnknownError", message: error.message };
+      }
+    }
+
+    return { data: {} as T, error: errorResult };
   }
 }
