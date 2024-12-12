@@ -28,7 +28,7 @@ export default function RankingList<
                 >
                   {tableTitles.map((value) => (
                     <td key={value.title}>
-                      <Link href={elem.url!}>
+                      <Link href={elem.url!} target="_blank">
                         {(elem[value.key] as React.ReactNode) || "-"}
                       </Link>
                     </td>

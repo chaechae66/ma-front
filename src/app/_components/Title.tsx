@@ -24,8 +24,8 @@ export default function Title({
   return (
     <nav className="mt-20 pb-6 flex-between border-b-[1px] border-white">
       <div className="flex flex-center">
-        <h4 className="text-2xl font-bold mr-1">{title}</h4>
-        <IoMdRefreshCircle size={25} onClick={refetch} />
+        <h4 className="text-2xl font-bold mr-1 leading-none">{title}</h4>
+        <IoMdRefreshCircle className="mt-1" size={25} onClick={refetch} />
       </div>
       {isShow[type] ? (
         <img

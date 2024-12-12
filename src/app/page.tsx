@@ -1,5 +1,5 @@
 import MainRank from "./_components/MainRank";
-import SearchForm from "./_components/SearchForm";
+import SearchForm from "./_components/SearchForm/SearchForm";
 
 export default function Home() {
   return (
